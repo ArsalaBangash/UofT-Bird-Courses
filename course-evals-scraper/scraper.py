@@ -44,15 +44,31 @@ hundred_button.click()
 course_evals = []
 
 time.sleep(2)
-for i in range(2):    ## Hardcoded. 
+for i in range(65):    ## Hardcoded. 
     next_button: WebElement = driver.find_element_by_css_selector(".gPaging > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(6) > input:nth-child(1)")
     table_rows = grid.find_elements_by_tag_name("tr")
     for table_row in range(1, len(table_rows)):
         rows.append(table_rows[table_row].text)
         item = table_rows[table_row].find_elements_by_tag_name("td")
-        course = {"course_name": item[1].text,"prof_last_name": item[2].text,"prof_first_name": item[3].text,"term": item[4].text, "intellectually_stimulating": item[5].text,"deeper_understanding": item[6].text,"learning_atmosphere": item[7].text,"effective_projects": item[8].text,"overall_quality": item[9].text,"workload": item[10].text,"would_recommend": item[11].text,"attended_class": item[12].text,"inspired_to_learn": item[13].text,"invited": item[14].text,"responded": item[15].text}
-        print(course)
+        course = {
+          "course_name": item[1].text,
+          "prof_last_name": item[2].text,
+          "prof_first_name": item[3].text,
+          "term": item[4].text,
+          "intellectually_stimulating": item[5].text,
+          "deeper_understanding": item[6].text,
+          "learning_atmosphere": item[7].text,
+          "effective_projects": item[8].text,
+          "overall_quality": item[9].text,
+          "workload": item[10].text,
+          "would_recommend": item[11].text,
+          "attended_class": item[12].text,
+          "inspired_to_learn": item[13].text,
+          "invited": item[14].text,
+          "responded": item[15].text
+        }
         course_evals.append(course)
+        print('Handled course ' + course['course_name'])
     next_button.click()
     time.sleep(2)
     print('Handled page '+ str(i))
@@ -65,7 +81,9 @@ soup = BeautifulSoup(html, 'html')
 # For now, all we do with the beautiful soup data model of our page is write it to an index.html
 # file. #TODO: Parse this data and get the course eval info we're looking for
 # index = open("index.html", "w")
-# index.write(str(soup)) 
+# index.write(str(soup))
+
+print('Number of courses: ' + str(len(course_evals)))
 
 with open('evals.json', 'w') as json_file:
   json.dump(course_evals, json_file)
